@@ -80,8 +80,8 @@ DATABASES = {
         'NAME': 'GamingPlatform',
         'USER': 'postgres',
         'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5454',
+        'HOST': '',
+        'PORT': '',
     }
 }
 

@@ -8,7 +8,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'haya2008',
         'HOST': '',
-        'PORT': '5454',
+        'PORT': '',
     }
 }
 
