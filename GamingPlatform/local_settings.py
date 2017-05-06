@@ -7,7 +7,7 @@ DATABASES = {
         'NAME': 'GamingPlatform',
         'USER': 'postgres',
         'PASSWORD': 'haya2008',
-        'HOST': 'localhost',
+        'HOST': '',
         'PORT': '5454',
     }
 }
