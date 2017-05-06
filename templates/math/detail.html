@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{ object.question }}</title>
+</head>
+<body>
+    {% include "messages_display.html" %}
+	<center><h1>{{ object.question }}</h1></center>
+	<center>
+		<form method="POST" name="question">
+			{% csrf_token %}
+			<h5><input type="radio" name="option" value="{{ object.option1 }}">{{ object.option1 }}</h5>
+			<h5><input type="radio" name="option" value="{{ object.option2 }}">{{ object.option2 }}</h5>
+			<h5><input type="radio" name="option" value="{{ object.option3 }}">{{ object.option3 }}</h5>
+			<h5><input type="radio" name="option" value="{{ object.option4 }}">{{ object.option4 }}</h5>
+			<input type="submit" value="Submit">
+		</form>
+	</center>
+
+</body>
+</html>

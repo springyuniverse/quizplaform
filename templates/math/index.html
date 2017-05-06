@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+ 	{% for obj in object_list %}
+	<center><a href="{{ obj.get_absolute_url }}"><h1>{{ obj.question }}</h1></center>
+	  {% endfor %}
+
+</body>
+</html>
