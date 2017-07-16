@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'quiz',
     'rest_framework',
-    'el_pagination'
 ]
 
 REST_FRAMEWORK = {
