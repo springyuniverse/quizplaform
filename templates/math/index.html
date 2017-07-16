@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html>
+<title>Math | IG Academy Game</title>
+{% extends "base.html" %}
+{% block content %}
+    {% include "messages_display.html" %}
 
-<body>
  	{% for obj in object_list %}
-	<center><a href="{{ obj.get_absolute_url }}"><h1>{{ obj.question }}</h1></center>
-	  {% endfor %}
-
-</body>
-</html>
+		<center><a href="{{ obj.get_absolute_url }}"><h1>{{ obj.question }}</h1></center>
+	{% endfor %}
+{% endblock content %}

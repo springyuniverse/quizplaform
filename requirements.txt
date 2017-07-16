@@ -19,3 +19,4 @@ twilio==5.4.0
 virtualenv==14.0.6
 whitenoise==2.0.6
 django-multiselectfield
+djangorestframework

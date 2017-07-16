@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>{{ object.question }}</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block head_title %}{{ block.super }}{% endblock head_title %}
+
+{% block content %}
     {% include "messages_display.html" %}
 	<center><h1>{{ object.question }}</h1></center>
 	<center>
@@ -15,7 +13,9 @@
 			<h5><input type="radio" name="option" value="{{ object.option4 }}">{{ object.option4 }}</h5>
 			<input type="submit" value="Submit">
 		</form>
+		{% if prev %}<a href="/math/{{ prev }}/">PREVIOUS</a>{% endif %}
+		{% if next %}<a href="/math/{{ next }}/">NEXT</a>{% endif %}
 	</center>
-
 </body>
 </html>
+{% endblock content %}

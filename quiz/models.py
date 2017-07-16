@@ -33,6 +33,7 @@ class MathQuestion(models.Model):
 	option3 = models.CharField(max_length=50, default="")
 	option4 = models.CharField(max_length=50, default="")
 	answer = models.CharField(max_length=50, default="")
+	points = models.PositiveIntegerField()
 	exam = models.ForeignKey(Exam, blank = True, null = True)
 
 	def __str__(self):

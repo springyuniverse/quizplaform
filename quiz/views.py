@@ -6,10 +6,27 @@ from .forms import *
 from django.contrib.auth.models import  User, Group
 from django.contrib import messages, auth
 from django.contrib.auth import authenticate, login
+import random
+from rest_framework import viewsets
+from .serializers import *
+from django.contrib.auth.decorators import login_required
 
 correct = "Right Answer!"
 incorrect = "Wrong Answer!"
 correctb4 = "Right Answer! But you solved that before! Solve something new!"
+
+class MathQuestionViewSet(viewsets.ModelViewSet):
+	queryset = MathQuestion.objects.all()
+	serializer_class = MathQuestionSerializer
+
+@login_required
+def homepage(request):
+	user = get_object_or_404(UserDetail, user = request.user)
+	score = user.score
+	context = {
+		"score" : score
+	}
+	return render(request, "home.html", context)
 
 def register_user(request):
 	if request.method == "GET":
@@ -24,7 +41,7 @@ def register_user(request):
 		user = auth.authenticate(username = username, password = password)
 		UserDetail.objects.create(user = user)
 		login(request, user)
-		return redirect("/dashboard")
+		return redirect("/")
 
 def login_user(request):
     state = "Please log in below..."
@@ -36,7 +53,7 @@ def login_user(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return redirect("/db")
+                return redirect("/")
             else:
                 state = "Your account is not active, please contact the site admin."
         else:
@@ -50,21 +67,21 @@ def logout_user(request):
 
 class MathListView(generic.ListView):
 	template_name = "math/index.html"
+	title = "Math"
 	def get_queryset(self):
-		return MathQuestion.objects.all()
+		return MathQuestion.objects.all().order_by('id')
 
+@login_required
 def MathDetail(request, pk):
-
 	instance = get_object_or_404(MathQuestion, pk = pk)
 	user = get_object_or_404(UserDetail, user = request.user)
-	queryset = MathQuestion.objects.all()
 	solved = MathAnswer.objects.filter(solver = request.user, question = instance)
 
 	if request.method == "POST":
 		userAnswer = request.POST["option"]
 		if userAnswer == instance.answer:
 			if not solved:
-				user.score = user.score + 1
+				user.score = user.score + instance.points
 				user.save()
 				messages.success(request, correct)
 				MathAnswer.objects.create(solver = request.user.username, question = instance)
@@ -73,11 +90,30 @@ def MathDetail(request, pk):
 		else:
 			messages.success(request, incorrect)
 
-	for q in queryset:
-		print(q.id)
+	def get_next():
+		next = MathQuestion.objects.filter(pk__gt=pk)
+		if next:
+			return next.first().id
+		return False
+	if get_next():
+		next = get_next()
+	else:
+		next = ''
+
+	def get_prev():
+		prev = MathQuestion.objects.filter(pk__lt=pk).order_by('-id')
+		if prev:
+		  return prev.first().id
+		return False
+	if get_prev():
+		prev = get_prev()
+	else:
+		prev = ''
 
 	context = {
 		"title" : instance.question,
 		"object" : instance,
+		"next" : next,
+		"prev" : prev,
 	}
 	return render(request, "math/detail.html", context)
