@@ -7,5 +7,4 @@ from quiz.views import (
 urlpatterns = [
     url(r'^(?P<pk>\d+)/$', MathDetail, name = "detail"),
     url(r'^$', MathListView.as_view(), name = "list"),
-
 ]
