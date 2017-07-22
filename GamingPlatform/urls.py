@@ -21,11 +21,11 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', homepage, name = "homepage"),
 
-    url(r'^math/', include("quiz.SubjectUrls.MathUrls", namespace = "math")),
-    url(r'^biology/', include("quiz.SubjectUrls.BiologyUrls", namespace = "biology")),
-    url(r'^chemistry/', include("quiz.SubjectUrls.ChemistryUrls", namespace = "chemistry")),
-    url(r'^physics/', include("quiz.SubjectUrls.PhysicsUrls", namespace = "physics")),
-    url(r'^english/', include("quiz.SubjectUrls.EnglishUrls", namespace = "english")),
+    url(r'^math/', include("quiz.MathUrls", namespace = "math")),
+    url(r'^biology/', include("quiz.BiologyUrls", namespace = "biology")),
+    url(r'^chemistry/', include("quiz.ChemistryUrls", namespace = "chemistry")),
+    url(r'^physics/', include("quiz.PhysicsUrls", namespace = "physics")),
+    url(r'^english/', include("quiz.EnglishUrls", namespace = "english")),
 
     url(r'^register/$', register_user, name = "register"),
     url(r'^login/$', login_user, name = "login"),
