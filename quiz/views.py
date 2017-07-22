@@ -6,7 +6,6 @@ from .forms import *
 from django.contrib.auth.models import  User, Group
 from django.contrib import messages, auth
 from django.contrib.auth import authenticate, login
-import random
 from rest_framework import viewsets
 from .serializers import *
 from django.contrib.auth.decorators import login_required
@@ -66,7 +65,7 @@ def logout_user(request):
 	return redirect("/login")
 
 class MathListView(generic.ListView):
-	template_name = "math/index.html"
+	template_name = "subject/index.html"
 	title = "Math"
 	def get_queryset(self):
 		return MathQuestion.objects.all().order_by('id')
@@ -116,4 +115,218 @@ def MathDetail(request, pk):
 		"next" : next,
 		"prev" : prev,
 	}
-	return render(request, "math/detail.html", context)
+	return render(request, "subject/detail.html", context)
+
+class BiologyListView(generic.ListView):
+	template_name = "subject/index.html"
+	title = "Biology"
+	def get_queryset(self):
+		return BiologyQuestion.objects.all().order_by('id')
+
+@login_required
+def BiologyDetail(request, pk):
+	instance = get_object_or_404(BiologyQuestion, pk = pk)
+	user = get_object_or_404(UserDetail, user = request.user)
+	solved = BiologyAnswer.objects.filter(solver = request.user, question = instance)
+
+	if request.method == "POST":
+		userAnswer = request.POST["option"]
+		if userAnswer == instance.answer:
+			if not solved:
+				user.score = user.score + instance.points
+				user.save()
+				messages.success(request, correct)
+				BiologyAnswer.objects.create(solver = request.user.username, question = instance)
+			else:
+				messages.success(request, correctb4)
+		else:
+			messages.success(request, incorrect)
+
+	def get_next():
+		next = BiologyQuestion.objects.filter(pk__gt=pk)
+		if next:
+			return next.first().id
+		return False
+	if get_next():
+		next = get_next()
+	else:
+		next = ''
+
+	def get_prev():
+		prev = BiologyQuestion.objects.filter(pk__lt=pk).order_by('-id')
+		if prev:
+		  return prev.first().id
+		return False
+	if get_prev():
+		prev = get_prev()
+	else:
+		prev = ''
+
+	context = {
+		"title" : instance.question,
+		"object" : instance,
+		"next" : next,
+		"prev" : prev,
+	}
+	return render(request, "subject/detail.html", context)
+
+class PhysicsListView(generic.ListView):
+	template_name = "subject/index.html"
+	title = "Physics"
+	def get_queryset(self):
+		return PhysicsQuestion.objects.all().order_by('id')
+
+@login_required
+def PhysicsDetail(request, pk):
+	instance = get_object_or_404(PhysicsQuestion, pk = pk)
+	user = get_object_or_404(UserDetail, user = request.user)
+	solved = PhysicsAnswer.objects.filter(solver = request.user, question = instance)
+
+	if request.method == "POST":
+		userAnswer = request.POST["option"]
+		if userAnswer == instance.answer:
+			if not solved:
+				user.score = user.score + instance.points
+				user.save()
+				messages.success(request, correct)
+				PhysicsAnswer.objects.create(solver = request.user.username, question = instance)
+			else:
+				messages.success(request, correctb4)
+		else:
+			messages.success(request, incorrect)
+
+	def get_next():
+		next = PhysicsQuestion.objects.filter(pk__gt=pk)
+		if next:
+			return next.first().id
+		return False
+	if get_next():
+		next = get_next()
+	else:
+		next = ''
+
+	def get_prev():
+		prev = PhysicsQuestion.objects.filter(pk__lt=pk).order_by('-id')
+		if prev:
+		  return prev.first().id
+		return False
+	if get_prev():
+		prev = get_prev()
+	else:
+		prev = ''
+
+	context = {
+		"title" : instance.question,
+		"object" : instance,
+		"next" : next,
+		"prev" : prev,
+	}
+	return render(request, "subject/detail.html", context)
+
+class ChemistryListView(generic.ListView):
+	template_name = "subject/index.html"
+	title = "Chemistry"
+	def get_queryset(self):
+		return ChemistryQuestion.objects.all().order_by('id')
+
+@login_required
+def ChemistryDetail(request, pk):
+	instance = get_object_or_404(ChemistryQuestion, pk = pk)
+	user = get_object_or_404(UserDetail, user = request.user)
+	solved = ChemistryAnswer.objects.filter(solver = request.user, question = instance)
+
+	if request.method == "POST":
+		userAnswer = request.POST["option"]
+		if userAnswer == instance.answer:
+			if not solved:
+				user.score = user.score + instance.points
+				user.save()
+				messages.success(request, correct)
+				ChemistryAnswer.objects.create(solver = request.user.username, question = instance)
+			else:
+				messages.success(request, correctb4)
+		else:
+			messages.success(request, incorrect)
+
+	def get_next():
+		next = ChemistryQuestion.objects.filter(pk__gt=pk)
+		if next:
+			return next.first().id
+		return False
+	if get_next():
+		next = get_next()
+	else:
+		next = ''
+
+	def get_prev():
+		prev = ChemistryQuestion.objects.filter(pk__lt=pk).order_by('-id')
+		if prev:
+		  return prev.first().id
+		return False
+	if get_prev():
+		prev = get_prev()
+	else:
+		prev = ''
+
+	context = {
+		"title" : instance.question,
+		"object" : instance,
+		"next" : next,
+		"prev" : prev,
+	}
+	return render(request, "subject/detail.html", context)
+
+class EnglishListView(generic.ListView):
+	template_name = "subject/index.html"
+	title = "English"
+	def get_queryset(self):
+		return EnglishQuestion.objects.all().order_by('id')
+
+@login_required
+def EnglishDetail(request, pk):
+	instance = get_object_or_404(EnglishQuestion, pk = pk)
+	user = get_object_or_404(UserDetail, user = request.user)
+	solved = EnglishAnswer.objects.filter(solver = request.user, question = instance)
+
+	if request.method == "POST":
+		userAnswer = request.POST["option"]
+		if userAnswer == instance.answer:
+			if not solved:
+				user.score = user.score + instance.points
+				user.save()
+				messages.success(request, correct)
+				EnglishAnswer.objects.create(solver = request.user.username, question = instance)
+			else:
+				messages.success(request, correctb4)
+		else:
+			messages.success(request, incorrect)
+
+	def get_next():
+		next = EnglishQuestion.objects.filter(pk__gt=pk)
+		if next:
+			return next.first().id
+		return False
+	if get_next():
+		next = get_next()
+	else:
+		next = ''
+
+	def get_prev():
+		prev = EnglishQuestion.objects.filter(pk__lt=pk).order_by('-id')
+		if prev:
+		  return prev.first().id
+		return False
+	if get_prev():
+		prev = get_prev()
+	else:
+		prev = ''
+
+	context = {
+		"title" : instance.question,
+		"object" : instance,
+		"next" : next,
+		"prev" : prev,
+	}
+	return render(request, "subject/detail.html", context)
+
+

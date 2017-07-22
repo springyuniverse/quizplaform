@@ -16,6 +16,7 @@
 
 	<body>
     {% include "messages_display.html" %}
+            <center><h3><a href="/">Homepage</a></h3></center>
             {% if user.is_authenticated %}
             <li><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}

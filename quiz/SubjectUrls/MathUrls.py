@@ -1,6 +1,4 @@
 from django.conf.urls import url
-from django.contrib import admin
-
 from quiz.views import (
 		MathDetail,
 		MathListView
