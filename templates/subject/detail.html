@@ -6,14 +6,43 @@
 	<center>
 		<form method="POST" name="question">
 			{% csrf_token %}
-			<h5><input type="radio" name="option" value="{{ object.option1 }}">{{ object.option1 }}</h5>
-			<h5><input type="radio" name="option" value="{{ object.option2 }}">{{ object.option2 }}</h5>
-			<h5><input type="radio" name="option" value="{{ object.option3 }}">{{ object.option3 }}</h5>
-			<h5><input type="radio" name="option" value="{{ object.option4 }}">{{ object.option4 }}</h5>
-			<input type="submit" value="Submit">
+			<div class="container radios">
+				<ul>
+				  <li>
+				    <input type="radio" id="f-option" name="option" value="{{ object.option1 }}">
+				    <label for="f-option">{{ object.option1 }}</label>
+				    
+				    <div class="check"></div>
+				  </li>
+				  
+				  <li>
+				    <input type="radio" id="s-option" name="option" value="{{ object.option2 }}">
+				    <label for="s-option">{{ object.option2 }}</label>
+				    
+				    <div class="check"><div class="inside"></div></div>
+				  </li>
+				  
+				  <li>
+				    <input type="radio" id="t-option" name="option" value="{{ object.option3 }}">
+				    <label for="t-option">{{ object.option3 }}</label>
+				    
+				    <div class="check"><div class="inside"></div></div>
+				  </li>
+
+				  <li>
+				    <input type="radio" id="q-option" name="option" value="{{ object.option4 }}">
+				    <label for="q-option">{{ object.option4 }}</label>
+				    
+				    <div class="check"><div class="inside"></div></div>
+				  </li>
+				</ul>
+				<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+			</div>
 		</form>
-		{% if prev %}<a href="/math/{{ prev }}/">PREVIOUS</a>{% endif %}
-		{% if next %}<a href="/math/{{ next }}/">NEXT</a>{% endif %}
+		{% if prev %}<a href="/math/{{ prev }}/"><button type="button" class="btn btn-success">Previous</button>
+</a>{% endif %}
+		{% if next %}<a href="/math/{{ next }}/"><button type="button" class="btn btn-success">Next</button>
+</a>{% endif %}
 	</center>
 </body>
 </html>

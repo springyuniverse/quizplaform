@@ -21,8 +21,30 @@ class MathQuestionViewSet(viewsets.ModelViewSet):
 @login_required
 def homepage(request):
 	user = get_object_or_404(UserDetail, user = request.user)
+
+	MathTotal = MathQuestion.objects.all()
+	MathSolved = MathAnswer.objects.filter(solver = request.user)
+	MathPercent = len(MathSolved)/len(MathTotal)*100
+	BiologyTotal = BiologyQuestion.objects.all()
+	BiologySolved = BiologyAnswer.objects.filter(solver = request.user)
+	BiologyPercent = len(BiologySolved)/len(BiologyTotal)*100
+	ChemistryTotal = ChemistryQuestion.objects.all()
+	ChemistrySolved = ChemistryAnswer.objects.filter(solver = request.user)
+	ChemistryPercent = len(ChemistrySolved)/len(ChemistryTotal)*100
+	PhysicsTotal = PhysicsQuestion.objects.all()
+	PhysicsSolved = PhysicsAnswer.objects.filter(solver = request.user)
+	PhysicsPercent = len(PhysicsSolved)/len(PhysicsTotal)*100
+	EnglishTotal = EnglishQuestion.objects.all()
+	EnglishSolved = EnglishAnswer.objects.filter(solver = request.user)
+	EnglishPercent = len(EnglishSolved)/len(EnglishTotal)*100
+
 	score = user.score
 	context = {
+		"Math" : MathPercent,
+		"Biology" : BiologyPercent,
+		"Chemistry" : ChemistryPercent,
+		"Physics" : PhysicsPercent,
+		"English" : EnglishPercent,
 		"score" : score
 	}
 	return render(request, "home.html", context)
@@ -33,6 +55,11 @@ def register_user(request):
 		return render(request, "register.html", context)
 	elif request.method == "POST":
 		username = request.POST["username"]
+		
+		if User.objects.filter(username=username).exists():
+			messages.success(request, "This username is already taken!")
+			return redirect("/register")
+
 		email = request.POST["email"]
 		password = request.POST["password"]
 
@@ -64,11 +91,21 @@ def logout_user(request):
 	auth.logout(request)
 	return redirect("/login")
 
-class MathListView(generic.ListView):
-	template_name = "subject/index.html"
-	title = "Math"
-	def get_queryset(self):
-		return MathQuestion.objects.all().order_by('id')
+@login_required
+def MathList(request):
+	queryset = MathQuestion.objects.all().order_by('id')
+	solved = MathAnswer.objects.filter(solver =  request.user)
+	solvedset = []
+
+	for q in solved:
+		solvedset.append(q.question.id)
+
+	context = {
+		"object_list" : queryset,
+		"solved_list" : solvedset,
+		"title" : "Math",
+	}
+	return render(request, "subject/index.html", context)
 
 @login_required
 def MathDetail(request, pk):
@@ -117,11 +154,21 @@ def MathDetail(request, pk):
 	}
 	return render(request, "subject/detail.html", context)
 
-class BiologyListView(generic.ListView):
-	template_name = "subject/index.html"
-	title = "Biology"
-	def get_queryset(self):
-		return BiologyQuestion.objects.all().order_by('id')
+@login_required
+def BiologyList(request):
+	queryset = BiologyQuestion.objects.all().order_by('id')
+	solved = BiologyAnswer.objects.filter(solver =  request.user)
+	solvedset = []
+
+	for q in solved:
+		solvedset.append(q.question.id)
+
+	context = {
+		"object_list" : queryset,
+		"solved_list" : solvedset,
+		"title" : "Biology",
+	}
+	return render(request, "subject/index.html", context)
 
 @login_required
 def BiologyDetail(request, pk):
@@ -170,11 +217,21 @@ def BiologyDetail(request, pk):
 	}
 	return render(request, "subject/detail.html", context)
 
-class PhysicsListView(generic.ListView):
-	template_name = "subject/index.html"
-	title = "Physics"
-	def get_queryset(self):
-		return PhysicsQuestion.objects.all().order_by('id')
+@login_required
+def PhysicsList(request):
+	queryset = PhysicsQuestion.objects.all().order_by('id')
+	solved = PhysicsAnswer.objects.filter(solver =  request.user)
+	solvedset = []
+
+	for q in solved:
+		solvedset.append(q.question.id)
+
+	context = {
+		"object_list" : queryset,
+		"solved_list" : solvedset,
+		"title" : "Physics",
+	}
+	return render(request, "subject/index.html", context)
 
 @login_required
 def PhysicsDetail(request, pk):
@@ -223,11 +280,21 @@ def PhysicsDetail(request, pk):
 	}
 	return render(request, "subject/detail.html", context)
 
-class ChemistryListView(generic.ListView):
-	template_name = "subject/index.html"
-	title = "Chemistry"
-	def get_queryset(self):
-		return ChemistryQuestion.objects.all().order_by('id')
+@login_required
+def ChemistryList(request):
+	queryset = ChemistryQuestion.objects.all().order_by('id')
+	solved = ChemistryAnswer.objects.filter(solver =  request.user)
+	solvedset = []
+
+	for q in solved:
+		solvedset.append(q.question.id)
+
+	context = {
+		"object_list" : queryset,
+		"solved_list" : solvedset,
+		"title" : "Chemistry",
+	}
+	return render(request, "subject/index.html", context)
 
 @login_required
 def ChemistryDetail(request, pk):
@@ -276,11 +343,21 @@ def ChemistryDetail(request, pk):
 	}
 	return render(request, "subject/detail.html", context)
 
-class EnglishListView(generic.ListView):
-	template_name = "subject/index.html"
-	title = "English"
-	def get_queryset(self):
-		return EnglishQuestion.objects.all().order_by('id')
+@login_required
+def EnglishList(request):
+	queryset = EnglishQuestion.objects.all().order_by('id')
+	solved = EnglishAnswer.objects.filter(solver =  request.user)
+	solvedset = []
+
+	for q in solved:
+		solvedset.append(q.question.id)
+
+	context = {
+		"object_list" : queryset,
+		"solved_list" : solvedset,
+		"title" : "English",
+	}
+	return render(request, "subject/index.html", context)
 
 @login_required
 def EnglishDetail(request, pk):
@@ -328,5 +405,3 @@ def EnglishDetail(request, pk):
 		"prev" : prev,
 	}
 	return render(request, "subject/detail.html", context)
-
-
