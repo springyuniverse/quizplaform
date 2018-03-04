@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'quiz',
-    'rest_framework',
 ]
 
 REST_FRAMEWORK = {
@@ -49,7 +48,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

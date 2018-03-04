@@ -117,7 +117,7 @@ class EnglishQuestion(models.Model):
 		return self.question
 
 	def get_absolute_url(self):
-		return reverse("biology:detail", kwargs={"pk" : self.pk})
+		return reverse("english:detail", kwargs={"pk" : self.pk})
 
 class EnglishAnswer(models.Model):	
 	question = models.ForeignKey(EnglishQuestion, on_delete = models.CASCADE, blank = False)

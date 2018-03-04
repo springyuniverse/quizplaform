@@ -6,17 +6,12 @@ from .forms import *
 from django.contrib.auth.models import  User, Group
 from django.contrib import messages, auth
 from django.contrib.auth import authenticate, login
-from rest_framework import viewsets
-from .serializers import *
 from django.contrib.auth.decorators import login_required
 
 correct = "Right Answer!"
 incorrect = "Wrong Answer!"
 correctb4 = "Right Answer! But you solved that before! Solve something new!"
 
-class MathQuestionViewSet(viewsets.ModelViewSet):
-	queryset = MathQuestion.objects.all()
-	serializer_class = MathQuestionSerializer
 
 @login_required
 def homepage(request):
