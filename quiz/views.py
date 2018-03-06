@@ -8,6 +8,8 @@ from django.contrib import messages, auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
+from .MathViews import *
+
 correct = "Right Answer!"
 incorrect = "Wrong Answer!"
 correctb4 = "Right Answer! But you solved that before! Solve something new!"
@@ -86,68 +88,7 @@ def logout_user(request):
 	auth.logout(request)
 	return redirect("/login")
 
-@login_required
-def MathList(request):
-	queryset = MathQuestion.objects.all().order_by('id')
-	solved = MathAnswer.objects.filter(solver =  request.user)
-	solvedset = []
-
-	for q in solved:
-		solvedset.append(q.question.id)
-
-	context = {
-		"object_list" : queryset,
-		"solved_list" : solvedset,
-		"title" : "Math",
-	}
-	return render(request, "subject/index.html", context)
-
-@login_required
-def MathDetail(request, pk):
-	instance = get_object_or_404(MathQuestion, pk = pk)
-	user = get_object_or_404(UserDetail, user = request.user)
-	solved = MathAnswer.objects.filter(solver = request.user, question = instance)
-
-	if request.method == "POST":
-		userAnswer = request.POST["option"]
-		if userAnswer == instance.answer:
-			if not solved:
-				user.score = user.score + instance.points
-				user.save()
-				messages.success(request, correct)
-				MathAnswer.objects.create(solver = request.user.username, question = instance)
-			else:
-				messages.success(request, correctb4)
-		else:
-			messages.success(request, incorrect)
-
-	def get_next():
-		next = MathQuestion.objects.filter(pk__gt=pk)
-		if next:
-			return next.first().id
-		return False
-	if get_next():
-		next = get_next()
-	else:
-		next = ''
-
-	def get_prev():
-		prev = MathQuestion.objects.filter(pk__lt=pk).order_by('-id')
-		if prev:
-		  return prev.first().id
-		return False
-	if get_prev():
-		prev = get_prev()
-	else:
-		prev = ''
-
-	context = {
-		"title" : instance.question,
-		"object" : instance,
-		"next" : next,
-		"prev" : prev,
-	}
-	return render(request, "subject/detail.html", context)
+#########################################
 
 @login_required
 def BiologyList(request):

@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import *
 
 # admin.site.register(Exam)
+admin.site.register(MathTopic)
+admin.site.register(MathSet)
 admin.site.register(MathQuestion)
 # admin.site.register(MathAnswer)
 admin.site.register(BiologyQuestion)

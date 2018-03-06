@@ -26,6 +26,26 @@ class Exam(models.Model):
 		return self.name;
 
 ### Math ###
+class MathTopic(models.Model):
+	name = models.CharField(max_length = 200, default = "")
+	slug = models.SlugField(unique=True)
+
+	def __str__(self):
+		return "Topic: " + self.name
+
+	def get_absolute_url(self):
+		return reverse('math:topic', args=[self.slug])
+
+class MathSet(models.Model):
+	name = models.CharField(max_length = 200, default = "")
+	topic = models.ForeignKey(MathTopic, blank = True, null = True)
+
+	def __str__(self):
+		return "Set: " + self.name
+
+	def get_absolute_url(self):
+		return reverse("math:set", kwargs={"pk" : self.pk, "topic" : self.topic.slug})
+
 class MathQuestion(models.Model):
 	question = models.TextField(max_length=200,default="")
 	image = models.CharField(max_length=255, default="", blank = True, null = True)
@@ -35,13 +55,13 @@ class MathQuestion(models.Model):
 	option4 = models.CharField(max_length=50, default="")
 	answer = models.CharField(max_length=50, default="")
 	points = models.PositiveIntegerField()
-	exam = models.ForeignKey(Exam, blank = True, null = True)
+	belongsTo = models.ForeignKey(MathSet, blank = True, null = True)
 
 	def __str__(self):
 		return self.question
 
 	def get_absolute_url(self):
-		return reverse("math:detail", kwargs={"pk" : self.pk})
+		return reverse("math:detail", kwargs={"id" : self.id, "topic" : self.belongsTo.topic.slug, "pk" : self.belongsTo.id})
 
 class MathAnswer(models.Model):	
 	question = models.ForeignKey(MathQuestion, on_delete = models.CASCADE, blank = False)

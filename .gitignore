@@ -4,3 +4,4 @@ env
 __pycache__
 GamingPlatform/local_settings.py
 .idea
+.tmp.drivedownload
