@@ -39,9 +39,9 @@
 				<button type="submit" class="btn btn-primary btn-lg">Submit</button>
 			</div>
 		</form>
-		{% if prev %}<a href="/math/{{ prev }}/"><button type="button" class="btn btn-success">Previous</button>
+		{% if prev %}<a href="/math/{{ topic }}/{{ set }}/{{ prev }}/"><button type="button" class="btn btn-success">Previous</button>
 </a>{% endif %}
-		{% if next %}<a href="/math/{{ next }}/"><button type="button" class="btn btn-success">Next</button>
+		{% if next %}<a href="/math/{{ topic }}/{{ set }}/{{ next }}/"><button type="button" class="btn btn-success">Next</button>
 </a>{% endif %}
 	</center>
 </body>

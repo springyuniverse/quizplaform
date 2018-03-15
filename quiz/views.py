@@ -2,18 +2,16 @@ from .models import *
 from django.views import generic
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from .forms import *
 from django.contrib.auth.models import  User, Group
 from django.contrib import messages, auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
-from .MathViews import *
-
 correct = "Right Answer!"
 incorrect = "Wrong Answer!"
 correctb4 = "Right Answer! But you solved that before! Solve something new!"
 
+from .MathViews import * 
 
 @login_required
 def homepage(request):

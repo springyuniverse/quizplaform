@@ -5,10 +5,6 @@ from django.contrib.auth.models import  User, Group
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 
-correct = "Right Answer!"
-incorrect = "Wrong Answer!"
-correctb4 = "Right Answer! But you solved that before! Solve something new!"
-
 @login_required
 def MathList(request):
 	queryset = MathTopic.objects.all().order_by('id')
@@ -55,7 +51,10 @@ def MathSetDetail(request, topic, pk):
 
 @login_required
 def MathQuestionDetail(request, topic, id, pk):
-	instance = get_object_or_404(MathQuestion, pk = pk)
+	thisSet = get_object_or_404(MathSet, pk = pk)
+	queryset = MathQuestion.objects.filter(belongsTo = thisSet.id).order_by('id')
+
+	instance = get_object_or_404(MathQuestion, id = id)
 	user = get_object_or_404(UserDetail, user = request.user)
 	solved = MathAnswer.objects.filter(solver = request.user, question = instance)
 
@@ -73,7 +72,7 @@ def MathQuestionDetail(request, topic, id, pk):
 			messages.success(request, incorrect)
 
 	def get_next():
-		next = MathQuestion.objects.filter(pk__gt=pk)
+		next = queryset.filter(id__gt=id)
 		if next:
 			return next.first().id
 		return False
@@ -83,7 +82,7 @@ def MathQuestionDetail(request, topic, id, pk):
 		next = ''
 
 	def get_prev():
-		prev = MathQuestion.objects.filter(pk__lt=pk).order_by('-id')
+		prev = queryset.filter(id__lt=id).order_by('-id')
 		if prev:
 		  return prev.first().id
 		return False
@@ -95,6 +94,8 @@ def MathQuestionDetail(request, topic, id, pk):
 	context = {
 		"title" : instance.question,
 		"object" : instance,
+		"topic" : thisSet.topic.slug,
+		"set" : pk,
 		"next" : next,
 		"prev" : prev,
 	}
