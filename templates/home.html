@@ -4,6 +4,8 @@
 {% block content %}
 
 	<div class="col-lg-8">
+
+			{% if 'BI' in subjects %}
 			<div class="subject col-lg-12">
 				<i class="fa fa-shield col-lg-3" aria-hidden="true"></i>
 				<h3>IGCSE Biology</h3>
@@ -14,7 +16,10 @@
 		                </div>
 	                </div>
 				</div>
-			</div>			
+			</div>		
+			{% endif %}
+
+			{% if 'CH' in subjects %}
 			<div class="subject col-lg-12">
 				<i class="fa fa-shield col-lg-3" aria-hidden="true"></i>
 				<h3>IGCSE Chemistry</h3>
@@ -25,7 +30,10 @@
 		                </div>
 	                </div>
 				</div>
-			</div>			
+			</div>
+			{% endif %}
+
+			{% if 'PH' in subjects %}			
 			<div class="subject col-lg-12">
 				<i class="fa fa-shield col-lg-3" aria-hidden="true"></i>
 				<h3>IGCSE Physics</h3>
@@ -36,7 +44,10 @@
 		                </div>
 	                </div>
 				</div>
-			</div>			
+			</div>	
+			{% endif %}	
+
+			{% if 'MA' in subjects %}	
 			<div class="subject col-lg-12">
 				<i class="fa fa-shield col-lg-3" aria-hidden="true"></i>
 				<h3>IGCSE Math</h3>
@@ -47,7 +58,10 @@
 		                </div>
 	                </div>
 				</div>
-			</div>			
+			</div>	
+			{% endif %}
+
+			{% if 'EN' in subjects %}		
 			<div class="subject col-lg-12">
 				<i class="fa fa-shield col-lg-3" aria-hidden="true"></i>
 				<h3>IGCSE English</h3>
@@ -58,7 +72,8 @@
 		                </div>
 	                </div>
 				</div>
-			</div>			
+			</div>	
+			{% endif %}		
 			
 	</div>
 

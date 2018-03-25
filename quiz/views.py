@@ -16,6 +16,7 @@ from .MathViews import *
 @login_required
 def homepage(request):
 	user = get_object_or_404(UserDetail, user = request.user)
+	subjects = user.subjects
 
 	MathTotal = MathQuestion.objects.all()
 	MathSolved = MathAnswer.objects.filter(solver = request.user)
@@ -40,7 +41,8 @@ def homepage(request):
 		"Chemistry" : ChemistryPercent,
 		"Physics" : PhysicsPercent,
 		"English" : EnglishPercent,
-		"score" : score
+		"score" : score,
+		"subjects" : subjects
 	}
 	return render(request, "home.html", context)
 
@@ -57,10 +59,12 @@ def register_user(request):
 
 		email = request.POST["email"]
 		password = request.POST["password"]
+		subjects = request.POST.getlist('subject')
 
 		auth.models.User.objects.create_user(username, email, password).save()
 		user = auth.authenticate(username = username, password = password)
 		UserDetail.objects.create(user = user)
+		UserDetail.objects.filter(user = user).update(subjects = subjects)
 		login(request, user)
 		return redirect("/")
 

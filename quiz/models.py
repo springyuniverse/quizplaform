@@ -1,14 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import  User, Group
 from django.core.urlresolvers import reverse
+from multiselectfield import MultiSelectField
+
 
 class UserDetail(models.Model):
+	SUBJECT_OPTIONS = (('MA', 'Math'), ('EN','English'))
 	name = models.CharField(max_length=50,default="")
 	email = models.CharField(max_length=50,default="")
 	grade = models.PositiveIntegerField(blank = True, null = True)
 	score = models.PositiveIntegerField(default = 1, blank = True, null = True)
 	bio = models.TextField(blank = True, null = True)
 	user = models.OneToOneField(User)
+	subjects = MultiSelectField(choices = SUBJECT_OPTIONS)
 
 	def __str__(self):
 		return self.user.username
