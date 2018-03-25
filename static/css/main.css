@@ -124,6 +124,10 @@ html, body{
 	background-color: #2ecc71;
 }
 
+.falseSolved{
+	background-color: #e74c3c;
+}
+
 .radios{
 	  display: block;
 	  position: relative;

@@ -66,6 +66,8 @@ class MathQuestion(models.Model):
 class MathAnswer(models.Model):	
 	question = models.ForeignKey(MathQuestion, on_delete = models.CASCADE, blank = False)
 	solver = models.CharField(max_length = 50)
+	answer = models.CharField(max_length = 200, default="", blank= True, null = True)
+	state = models.BooleanField()
 
 	def __str__(self):
 		return "Answer by: " + self.solver + " on question " + self.question.question

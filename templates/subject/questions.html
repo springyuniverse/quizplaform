@@ -8,7 +8,7 @@
  		<div class="container-fluid text-center">
  			{% for obj in object_list %}
 
- 				{% if obj.id in solved_list %}
+ 				{% if obj.id in correctly_solved_list %}
 	 				<a href="{{ obj.get_absolute_url }}">
 						<div class="col-lg-3 questionItem solved">
 							<h1>{{ obj.question }}</h1>
@@ -16,11 +16,20 @@
 					</a>
 
 				{% else %}
-					<a href="{{ obj.get_absolute_url }}">
-						<div class="col-lg-3 questionItem">
-							<h1>{{ obj.question }}</h1>
-						</div>
-					</a>
+					{% if obj.id in incorrectly_solved_list %}
+						<a href="{{ obj.get_absolute_url }}">
+							<div class="col-lg-3 questionItem falseSolved">
+								<h1>{{ obj.question }}</h1>
+							</div>
+						</a>
+
+					{% else %}
+						<a href="{{ obj.get_absolute_url }}">
+							<div class="col-lg-3 questionItem">
+								<h1>{{ obj.question }}</h1>
+							</div>
+						</a>
+					{% endif %}
 				{% endif %}
 
 			{% endfor %}
